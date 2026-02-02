@@ -483,7 +483,7 @@
         <span>Casablanca</span>
       </div>
       <div class="meta-row">
-        <div class="pill">45-Day Innovation Sprint</div>
+        <div class="pill">30-Day Innovation Sprint</div>
         <div class="pill">8 Teams</div>
         <div class="pill">Demo Day</div>
       </div>
@@ -494,17 +494,17 @@
         <div class="hero-grid">
           <div>
             <p class="event-desc">
-              45 days of focused invention, rapid prototyping, and bold
+              30 days of focused invention, rapid prototyping, and bold
               thinking. Eight teams. One mission:
               <span class="highlight">ignite the next wave of innovation.</span>
             </p>
             <div class="callout">
               <span>Countdown to Demo Day</span>
-              <strong id="target-label">Target: March 15</strong>
+              <strong id="target-label">Target: February 28</strong>
             </div>
             <div class="stat-grid">
               <div class="stat-card">
-                <div class="value">45</div>
+                <div class="value">30</div>
                 <div class="label">Days to Build</div>
               </div>
               <div class="stat-card">
@@ -578,7 +578,7 @@
 
     <script>
       /* --- CONFIGURATION --- */
-      const targetDate = new Date("March 15, 2026 00:00:00").getTime();
+      const targetDate = new Date("February 28, 2026 00:00:00").getTime();
 
       // Durations (ms)
       const MAIN_DURATION = 10000;
@@ -661,6 +661,7 @@
       /* --- LOGIC --- */
       let currentTeamIndex = 0;
       let state = 0; // 0=Main, 1=Spotlight, 2=Mosaic
+      let spotlightShown = 0;
 
       function updateCountdown() {
         const now = new Date().getTime();
@@ -713,7 +714,13 @@
           nextDuration = SPOTLIGHT_DURATION;
 
           currentTeamIndex = (currentTeamIndex + 1) % teams.length;
-          state = 2;
+          spotlightShown += 1;
+          if (spotlightShown >= teams.length) {
+            spotlightShown = 0;
+            state = 2;
+          } else {
+            state = 1;
+          }
         } else {
           // MOSAIC
           mosaicSlide.classList.add("active");
