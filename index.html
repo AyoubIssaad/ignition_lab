@@ -6,19 +6,36 @@
     <title>Ignition Lab | Deloitte Extended Services</title>
     <style>
       /* --- CSS STYLES --- */
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Unbounded:wght@600;700;800&display=swap");
+
       :root {
         --deloitte-green: #86bc25;
-        --dark-bg: #000000;
+        --dark-bg: #070707;
         --text-color: #ffffff;
-        --card-bg: rgba(20, 20, 20, 0.85);
+        --card-bg: rgba(16, 16, 16, 0.85);
+        --muted: #a6a6a6;
+        --accent-glow: rgba(134, 188, 37, 0.35);
+        --glass: rgba(18, 18, 18, 0.65);
       }
 
       body {
         margin: 0;
         padding: 0;
-        background-color: var(--dark-bg);
+        background:
+          radial-gradient(
+              1200px 500px at 15% -10%,
+              rgba(134, 188, 37, 0.22),
+              transparent 60%
+            ),
+          radial-gradient(
+              900px 600px at 90% 10%,
+              rgba(255, 255, 255, 0.08),
+              transparent 65%
+            ),
+          linear-gradient(160deg, #050505 0%, #0a0a0a 60%, #0d0f0b 100%);
         color: var(--text-color);
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Space Grotesk", "Segoe UI", Tahoma, Geneva, Verdana,
+          sans-serif;
         overflow: hidden;
         height: 100vh;
         display: flex;
@@ -45,6 +62,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center; /* Ensure centering */
+        gap: 8px;
       }
 
       /* New container to hold title and rocket side-by-side */
@@ -52,24 +70,25 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 25px; /* Space between text and rocket */
+        gap: 20px; /* Space between text and rocket */
       }
 
       .event-title {
-        font-size: 4rem;
+        font-family: "Unbounded", "Space Grotesk", sans-serif;
+        font-size: 4.1rem;
         font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 5px;
+        letter-spacing: 4px;
         margin: 0;
         background: linear-gradient(90deg, #fff, var(--deloitte-green));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 30px rgba(134, 188, 37, 0.3);
+        text-shadow: 0 0 40px var(--accent-glow);
       }
 
       /* New styles for the rocket icon */
       .title-icon {
-        height: 4.5rem; /* Match roughly the font size */
+        height: 4.2rem; /* Match roughly the font size */
         width: auto;
         filter: drop-shadow(
           0 0 15px rgba(134, 188, 37, 0.6)
@@ -77,14 +96,47 @@
       }
 
       .event-subtitle {
-        font-size: 1.4rem;
-        font-weight: 300;
-        margin-top: 5px;
-        color: #ccc;
+        font-size: 1.15rem;
+        font-weight: 400;
+        margin: 0;
+        color: var(--muted);
         letter-spacing: 1px;
-        display: inline-block;
-        border-bottom: 2px solid var(--deloitte-green);
-        padding-bottom: 5px;
+        display: inline-flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .event-subtitle span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--deloitte-green);
+        box-shadow: 0 0 12px var(--accent-glow);
+      }
+
+      .meta-row {
+        margin-top: 6px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .pill {
+        border: 1px solid rgba(134, 188, 37, 0.4);
+        background: rgba(134, 188, 37, 0.08);
+        color: #e3f2c4;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
       }
 
       /* --- ROTATING CONTENT CONTAINER --- */
@@ -92,7 +144,8 @@
         position: relative;
         z-index: 10;
         width: 90vw;
-        height: 75vh; /* Occupy remaining space */
+        height: 71vh; /* Occupy remaining space */
+        margin-top: 4vh; /* Add breathing room under header pills */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -103,9 +156,9 @@
         position: absolute;
         opacity: 0;
         transition:
-          opacity 1.2s ease-in-out,
-          transform 1.2s ease;
-        transform: scale(0.95);
+          opacity 1s ease-in-out,
+          transform 1s ease;
+        transform: translateY(15px) scale(0.98);
         width: 100%;
         height: 100%;
         display: flex;
@@ -118,35 +171,71 @@
 
       .slide.active {
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0) scale(1);
         pointer-events: auto;
       }
 
       /* --- SLIDE 1: COUNTDOWN & DESC --- */
+      .hero-grid {
+        width: 90%;
+        max-width: 1400px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 50px;
+        align-items: center;
+      }
+
       .event-desc {
-        font-size: 1.8rem;
-        max-width: 80%;
-        margin: 0 auto 40px auto;
+        font-size: 2rem;
+        max-width: 100%;
+        margin: 0 0 28px 0;
         line-height: 1.6;
-        color: #eee;
+        color: #f0f0f0;
+        text-align: left;
+      }
+
+      .highlight {
+        color: var(--deloitte-green);
+        text-shadow: 0 0 25px rgba(134, 188, 37, 0.25);
+      }
+
+      .callout {
+        background: var(--glass);
+        border: 1px solid rgba(134, 188, 37, 0.35);
+        padding: 18px 22px;
+        border-radius: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 0.95rem;
+        color: #dfecc2;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .callout strong {
+        font-size: 1.2rem;
+        color: #ffffff;
       }
 
       .countdown-container {
         display: flex;
-        gap: 40px;
+        gap: 20px;
+        justify-content: center;
       }
 
       .time-box {
-        background: var(--card-bg);
-        padding: 30px 50px;
+        background: var(--glass);
+        padding: 26px 34px;
         border-radius: 15px;
-        border: 1px solid #333;
-        min-width: 120px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        min-width: 140px;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
       }
 
       .time-value {
-        font-size: 5rem;
+        font-size: 4.4rem;
         font-weight: 700;
         color: var(--deloitte-green);
         display: block;
@@ -154,12 +243,40 @@
       }
 
       .time-label {
-        font-size: 1.2rem;
+        font-size: 1rem;
         text-transform: uppercase;
         letter-spacing: 2px;
-        color: #888;
+        color: var(--muted);
         margin-top: 10px;
         display: block;
+      }
+
+      .stat-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 24px;
+      }
+
+      .stat-card {
+        padding: 18px 20px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        text-align: left;
+      }
+
+      .stat-card .value {
+        font-size: 2rem;
+        color: #fff;
+        font-weight: 700;
+      }
+
+      .stat-card .label {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
       }
 
       /* --- SLIDE 2: MOSAIC (ALL TEAMS) --- */
@@ -173,8 +290,8 @@
       }
 
       .mosaic-card {
-        background: rgba(30, 30, 30, 0.6);
-        border: 1px solid #444;
+        background: rgba(20, 20, 20, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 10px;
         overflow: hidden;
         display: flex;
@@ -182,7 +299,8 @@
         align-items: center;
         justify-content: flex-start;
         backdrop-filter: blur(5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+        animation: float 8s ease-in-out infinite;
       }
 
       .mosaic-card img {
@@ -190,6 +308,7 @@
         height: 75%;
         object-fit: cover;
         border-bottom: 2px solid var(--deloitte-green);
+        filter: saturate(0.9);
       }
 
       .mosaic-card .name {
@@ -260,10 +379,39 @@
       .team-motto {
         font-size: 1.8rem;
         font-style: italic;
-        color: #aaa;
+        color: #b0b0b0;
         margin-top: 20px;
         padding-top: 20px;
         border-top: 1px solid #444;
+      }
+
+      .flow-steps {
+        margin-top: 18px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .flow-step {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1rem;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+      }
+
+      .flow-step span {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: rgba(134, 188, 37, 0.2);
+        border: 1px solid rgba(134, 188, 37, 0.5);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #eaf7d1;
+        font-size: 0.85rem;
+        font-weight: 700;
       }
 
       .progress-bar {
@@ -275,6 +423,29 @@
         width: 0%;
         z-index: 100;
       }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+
+      @media (max-width: 1100px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+        .event-desc {
+          text-align: center;
+        }
+        .stat-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
     </style>
   </head>
   <body>
@@ -285,35 +456,63 @@
         <h1 class="event-title">Ignition Lab</h1>
         <img src="./img/rocket.webp" alt="Rocket Icon" class="title-icon" />
       </div>
-      <div class="event-subtitle">Deloitte Extended Services | Casablanca</div>
+      <div class="event-subtitle">
+        <span><span class="dot"></span>Deloitte Extended Services</span>
+        <span>|</span>
+        <span>Casablanca</span>
+      </div>
+      <div class="meta-row">
+        <div class="pill">45-Day Innovation Sprint</div>
+        <div class="pill">8 Teams</div>
+        <div class="pill">Demo Day</div>
+      </div>
     </header>
 
     <div class="content-container">
       <div class="slide active" id="main-slide">
-        <p class="event-desc">
-          45 Days. 8 Teams. One Goal.<br />
-          <strong>Building the future of innovation.</strong>
-        </p>
-
-        <div class="countdown-container">
-          <div class="time-box">
-            <span class="time-value" id="days">00</span>
-            <span class="time-label">Days</span>
+        <div class="hero-grid">
+          <div>
+            <p class="event-desc">
+              45 days of focused invention, rapid prototyping, and bold thinking.
+              Eight teams. One mission: <span class="highlight">ignite the next
+              wave of innovation.</span>
+            </p>
+            <div class="callout">
+              <span>Countdown to Demo Day</span>
+              <strong id="target-label">Target: March 15</strong>
+            </div>
+            <div class="stat-grid">
+              <div class="stat-card">
+                <div class="value">45</div>
+                <div class="label">Days to Build</div>
+              </div>
+              <div class="stat-card">
+                <div class="value">8</div>
+                <div class="label">Teams</div>
+              </div>
+              <div class="stat-card">
+                <div class="value">1</div>
+                <div class="label">Breakthrough</div>
+              </div>
+            </div>
           </div>
-          <div class="time-box">
-            <span class="time-value" id="hours">00</span>
-            <span class="time-label">Hours</span>
+          <div>
+            <div class="countdown-container">
+              <div class="time-box">
+                <span class="time-value" id="days">00</span>
+                <span class="time-label">Days</span>
+              </div>
+              <div class="time-box">
+                <span class="time-value" id="hours">00</span>
+                <span class="time-label">Hours</span>
+              </div>
+            </div>
+            <div class="flow-steps">
+              <div class="flow-step"><span>1</span>Discover the problem</div>
+              <div class="flow-step"><span>2</span>Prototype with speed</div>
+              <div class="flow-step"><span>3</span>Showcase on Demo Day</div>
+            </div>
           </div>
-        </div>
-        <div
-          style="
-            margin-top: 30px;
-            color: #666;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-          "
-        >
-          TARGET: MARCH 15
         </div>
       </div>
 
@@ -360,44 +559,44 @@
       // Teams Data
       const teams = [
         {
-          name: "Alpha Squad",
+          name: "Agent Zero",
           desc: "Redefining Architecture",
-          img: "https://placehold.co/600x400/111/86BC25?text=Alpha",
+          img: "https://placehold.co/600x400/111/86BC25?text=Agent%20Zero",
         },
         {
-          name: "Data Miners",
+          name: "Mindra",
           desc: "Extracting Value",
-          img: "https://placehold.co/600x400/222/86BC25?text=Miners",
+          img: "https://placehold.co/600x400/222/86BC25?text=Mindra",
         },
         {
-          name: "Neural Net",
+          name: "omiAI-Tech",
           desc: "AI Driven Solutions",
-          img: "https://placehold.co/600x400/333/86BC25?text=Neural",
+          img: "https://placehold.co/600x400/333/86BC25?text=omiAI-Tech",
         },
         {
-          name: "Code Weavers",
+          name: "AiShadows",
           desc: "Seamless Engineering",
-          img: "https://placehold.co/600x400/111/86BC25?text=Weavers",
+          img: "https://placehold.co/600x400/111/86BC25?text=AiShadows",
         },
         {
-          name: "Sky High",
+          name: "Opptimized Minds",
           desc: "Pushing Cloud Limits",
-          img: "https://placehold.co/600x400/222/86BC25?text=SkyHigh",
+          img: "https://placehold.co/600x400/222/86BC25?text=Opptimized%20Minds",
         },
         {
-          name: "Logic Gate",
+          name: "team0",
           desc: "Precision & Performance",
-          img: "https://placehold.co/600x400/333/86BC25?text=Logic",
+          img: "https://placehold.co/600x400/333/86BC25?text=team0",
         },
         {
-          name: "Innovators",
+          name: "team1",
           desc: "Building Tomorrow",
-          img: "https://placehold.co/600x400/111/86BC25?text=Innovators",
+          img: "https://placehold.co/600x400/111/86BC25?text=team1",
         },
         {
-          name: "Binary Beats",
+          name: "The Disaster",
           desc: "Digital Harmony",
-          img: "https://placehold.co/600x400/222/86BC25?text=Binary",
+          img: "https://placehold.co/600x400/222/86BC25?text=The%20Disaster",
         },
       ];
 
@@ -410,6 +609,13 @@
       const teamNameEl = document.getElementById("team-name");
       const teamDescEl = document.getElementById("team-desc");
       const teamImgEl = document.getElementById("team-img");
+      const targetLabelEl = document.getElementById("target-label");
+
+      const targetLabel = new Date(targetDate).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+      });
+      targetLabelEl.innerText = `Target: ${targetLabel}`;
 
       // Populate Mosaic
       const mosaicContainer = document.getElementById("mosaic-container");
