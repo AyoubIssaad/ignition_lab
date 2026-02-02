@@ -297,8 +297,8 @@
       /* --- SLIDE 2: MOSAIC (ALL TEAMS) --- */
       .mosaic-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
         gap: 20px;
         width: 95%;
         height: 90%;
@@ -484,7 +484,7 @@
       </div>
       <div class="meta-row">
         <div class="pill">30-Day Innovation Sprint</div>
-        <div class="pill">8 Teams</div>
+        <div class="pill">9 Teams</div>
         <div class="pill">Demo Day</div>
       </div>
     </header>
@@ -495,7 +495,7 @@
           <div>
             <p class="event-desc">
               30 days of focused invention, rapid prototyping, and bold
-              thinking. Eight teams. One mission:
+              thinking. Nine teams. One mission:
               <span class="highlight">ignite the next wave of innovation.</span>
             </p>
             <div class="callout">
@@ -508,7 +508,7 @@
                 <div class="label">Days to Build</div>
               </div>
               <div class="stat-card">
-                <div class="value">8</div>
+                <div class="value">9</div>
                 <div class="label">Teams</div>
               </div>
               <div class="stat-card">
@@ -590,32 +590,32 @@
         {
           name: "Agent Zero",
           desc: "Redefining Architecture",
-          img: "https://placehold.co/600x400/111/86BC25?text=Agent%20Zero",
+          img: "./img/agent_zero.jpeg",
         },
         {
           name: "Mindra",
           desc: "Extracting Value",
-          img: "https://placehold.co/600x400/222/86BC25?text=Mindra",
+          img: "./img/mindra.jpeg",
         },
         {
           name: "omiAI-Tech",
           desc: "AI Driven Solutions",
-          img: "https://placehold.co/600x400/333/86BC25?text=omiAI-Tech",
+          img: "./img/omiai_tech.jpeg",
         },
         {
           name: "AiShadows",
           desc: "Seamless Engineering",
-          img: "https://placehold.co/600x400/111/86BC25?text=AiShadows",
+          img: "./img/aishadows.jpeg",
         },
         {
           name: "Optimized Minds",
           desc: "Pushing Cloud Limits",
-          img: "https://placehold.co/600x400/222/86BC25?text=Opptimized%20Minds",
+          img: "./img/optimized_minds.jpeg",
         },
         {
           name: "team0",
           desc: "Precision & Performance",
-          img: "https://placehold.co/600x400/333/86BC25?text=team0",
+          img: "./img/team0.jpeg",
         },
         {
           name: "team1",
@@ -625,7 +625,12 @@
         {
           name: "The Disaster",
           desc: "Digital Harmony",
-          img: "https://placehold.co/600x400/222/86BC25?text=The%20Disaster",
+          img: "./img/disaster.jpeg",
+        },
+        {
+          name: "Asmaa",
+          desc: "Fresh Perspectives",
+          img: "./img/asmaa.jpeg",
         },
       ];
 
@@ -671,9 +676,7 @@
         const hours = Math.floor(
           (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
-        const minutes = Math.floor(
-          (distance % (1000 * 60 * 60)) / (1000 * 60),
-        );
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         document.getElementById("days").innerText =
           days < 10 ? "0" + days : days;
