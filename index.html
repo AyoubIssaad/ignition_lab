@@ -221,21 +221,22 @@
 
       .countdown-container {
         display: flex;
-        gap: 20px;
+        gap: 10px;
         justify-content: center;
+        align-items: flex-end;
       }
 
       .time-box {
         background: var(--glass);
-        padding: 26px 34px;
+        padding: 22px 26px;
         border-radius: 15px;
         border: 1px solid rgba(255, 255, 255, 0.08);
-        min-width: 140px;
+        min-width: 110px;
         box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
       }
 
       .time-value {
-        font-size: 4.4rem;
+        font-size: 3.8rem;
         font-weight: 700;
         color: var(--deloitte-green);
         display: block;
@@ -243,12 +244,26 @@
       }
 
       .time-label {
-        font-size: 1rem;
+        font-size: 0.9rem;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 1.6px;
         color: var(--muted);
         margin-top: 10px;
         display: block;
+      }
+
+      .time-box.small {
+        padding: 12px 14px;
+        min-width: 72px;
+      }
+
+      .time-box.small .time-value {
+        font-size: 2.2rem;
+      }
+
+      .time-box.small .time-label {
+        font-size: 0.7rem;
+        letter-spacing: 1.2px;
       }
 
       .stat-grid {
@@ -512,6 +527,14 @@
                 <span class="time-value" id="hours">00</span>
                 <span class="time-label">Hours</span>
               </div>
+              <div class="time-box small">
+                <span class="time-value" id="minutes">00</span>
+                <span class="time-label">Minutes</span>
+              </div>
+              <div class="time-box small">
+                <span class="time-value" id="seconds">00</span>
+                <span class="time-label">Seconds</span>
+              </div>
             </div>
             <div class="flow-steps">
               <div class="flow-step"><span>1</span>Discover the problem</div>
@@ -647,10 +670,18 @@
         const hours = Math.floor(
           (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
         );
+        const minutes = Math.floor(
+          (distance % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         document.getElementById("days").innerText =
           days < 10 ? "0" + days : days;
         document.getElementById("hours").innerText =
           hours < 10 ? "0" + hours : hours;
+        document.getElementById("minutes").innerText =
+          minutes < 10 ? "0" + minutes : minutes;
+        document.getElementById("seconds").innerText =
+          seconds < 10 ? "0" + seconds : seconds;
       }
       setInterval(updateCountdown, 1000);
       updateCountdown();
