@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ignition Lab | Deloitte Extended Services</title>
+    <style>
+      /* --- CSS STYLES --- */
+      :root {
+        --deloitte-green: #86bc25;
+        --dark-bg: #000000;
+        --text-color: #ffffff;
+        --card-bg: rgba(20, 20, 20, 0.85);
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--dark-bg);
+        color: var(--text-color);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        overflow: hidden; /* Prevent scrolling on the TV screen */
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Background Animation Canvas */
+      #bg-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Main Container */
+      .container {
+        position: relative;
+        z-index: 10;
+        width: 90vw;
+        height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Slide Transition Logic */
+      .slide {
+        position: absolute;
+        opacity: 0;
+        transition:
+          opacity 1.5s ease-in-out,
+          transform 1.5s ease;
+        transform: scale(0.95);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        pointer-events: none; /* Let clicks pass through */
+      }
+
+      .slide.active {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+      }
+
+      /* --- EVENT INFO SLIDE --- */
+      .event-title {
+        font-size: 5rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        margin: 0;
+        background: linear-gradient(90deg, #fff, var(--deloitte-green));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 30px rgba(134, 188, 37, 0.3);
+      }
+
+      .event-subtitle {
+        font-size: 1.8rem;
+        font-weight: 300;
+        margin-top: 10px;
+        color: #ccc;
+        border-bottom: 2px solid var(--deloitte-green);
+        padding-bottom: 15px;
+        display: inline-block;
+      }
+
+      .event-desc {
+        font-size: 1.5rem;
+        max-width: 70%;
+        margin: 30px auto;
+        line-height: 1.6;
+        color: #eee;
+      }
+
+      /* Countdown Box */
+      .countdown-container {
+        display: flex;
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .time-box {
+        background: var(--card-bg);
+        padding: 20px 40px;
+        border-radius: 15px;
+        border: 1px solid #333;
+        min-width: 100px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .time-value {
+        font-size: 4rem;
+        font-weight: 700;
+        color: var(--deloitte-green);
+        display: block;
+      }
+
+      .time-label {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #888;
+      }
+
+      /* --- TEAM SLIDE --- */
+      .team-card {
+        background: var(--card-bg);
+        border: 2px solid var(--deloitte-green);
+        border-radius: 20px;
+        padding: 40px;
+        width: 80%;
+        height: 70%;
+        display: flex;
+        flex-direction: row; /* Side by side layout */
+        align-items: center;
+        box-shadow: 0 0 50px rgba(134, 188, 37, 0.15);
+        backdrop-filter: blur(10px);
+      }
+
+      .team-image-container {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 15px;
+        background: #1a1a1a;
+      }
+
+      .team-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .team-info {
+        flex: 1;
+        padding-left: 50px;
+        text-align: left;
+      }
+
+      .team-label {
+        color: var(--deloitte-green);
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+      }
+
+      .team-name {
+        font-size: 4rem;
+        margin: 10px 0;
+        line-height: 1.1;
+      }
+
+      .team-motto {
+        font-size: 1.8rem;
+        font-style: italic;
+        color: #aaa;
+        margin-top: 20px;
+      }
+
+      /* Progress Bar at Bottom */
+      .progress-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 8px;
+        background: var(--deloitte-green);
+        width: 0%;
+        z-index: 20;
+      }
+
+      /* Helper for blinking cursor or small details */
+      .cursor {
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="container">
+      <div class="slide active" id="main-slide">
+        <h1 class="event-title">Ignition Lab</h1>
+        <div class="event-subtitle">
+          Deloitte Extended Services | Casablanca
+        </div>
+
+        <p class="event-desc">
+          Engineering &middot; Cloud &middot; AI &middot; Data <br /><br />
+          45 Days. 8 Teams. One Goal.<br />
+          <strong>Building the future of innovation.</strong>
+        </p>
+
+        <div class="countdown-container">
+          <div class="time-box">
+            <span class="time-value" id="days">00</span>
+            <span class="time-label">Days</span>
+          </div>
+          <div class="time-box">
+            <span class="time-value" id="hours">00</span>
+            <span class="time-label">Hours</span>
+          </div>
+        </div>
+        <div style="margin-top: 20px; color: #666; font-size: 0.9rem">
+          TARGET: MARCH 15
+        </div>
+      </div>
+
+      <div class="slide" id="team-slide">
+        <div class="team-card">
+          <div class="team-image-container">
+            <img src="" alt="Team Photo" class="team-image" id="team-img" />
+          </div>
+          <div class="team-info">
+            <div class="team-label">Team Spotlight</div>
+            <h2 class="team-name" id="team-name">Team Name</h2>
+            <p class="team-motto" id="team-desc">"Innovation starts here."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <script>
+      /* --- CONFIGURATION --- */
+      // Set the Target Date (March 15, 2026)
+      const targetDate = new Date("March 15, 2026 00:00:00").getTime();
+
+      // Duration for each slide in milliseconds
+      const MAIN_SLIDE_DURATION = 15000; // 15 seconds for info
+      const TEAM_SLIDE_DURATION = 8000; // 8 seconds per team
+
+      // TEAM DATA - EDIT THIS LIST
+      // You can host images in the repo and link like 'images/team1.jpg'
+      const teams = [
+        {
+          name: "Alpha Squad",
+          desc: "Redefining Cloud Architecture",
+          img: "https://placehold.co/600x400/111/86BC25?text=Alpha+Squad",
+        },
+        {
+          name: "Data Miners",
+          desc: "Extracting Value from Chaos",
+          img: "https://placehold.co/600x400/111/86BC25?text=Data+Miners",
+        },
+        {
+          name: "Neural Net",
+          desc: "AI Driven Solutions",
+          img: "https://placehold.co/600x400/111/86BC25?text=Neural+Net",
+        },
+        {
+          name: "Code Weavers",
+          desc: "Seamless Engineering",
+          img: "https://placehold.co/600x400/111/86BC25?text=Code+Weavers",
+        },
+        {
+          name: "Sky High",
+          desc: "Pushing Limits",
+          img: "https://placehold.co/600x400/111/86BC25?text=Sky+High",
+        },
+        {
+          name: "Logic Gate",
+          desc: "Precision & Performance",
+          img: "https://placehold.co/600x400/111/86BC25?text=Logic+Gate",
+        },
+        {
+          name: "The Innovators",
+          desc: "Building Tomorrow",
+          img: "https://placehold.co/600x400/111/86BC25?text=Innovators",
+        },
+        {
+          name: "Binary Beats",
+          desc: "Digital Harmony",
+          img: "https://placehold.co/600x400/111/86BC25?text=Binary+Beats",
+        },
+      ];
+
+      /* --- LOGIC --- */
+      const mainSlide = document.getElementById("main-slide");
+      const teamSlide = document.getElementById("team-slide");
+      const progressBar = document.getElementById("progress-bar");
+
+      // Elements to update dynamically
+      const teamNameEl = document.getElementById("team-name");
+      const teamDescEl = document.getElementById("team-desc");
+      const teamImgEl = document.getElementById("team-img");
+
+      let currentTeamIndex = 0;
+      let isMainSlide = true;
+
+      // COUNTDOWN FUNCTION
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+          document.getElementById("days").innerText = "00";
+          document.getElementById("hours").innerText = "00";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+        );
+
+        document.getElementById("days").innerText =
+          days < 10 ? "0" + days : days;
+        document.getElementById("hours").innerText =
+          hours < 10 ? "0" + hours : hours;
+      }
+
+      setInterval(updateCountdown, 1000);
+      updateCountdown();
+
+      // SLIDESHOW LOGIC
+      function switchSlide() {
+        // Reset Progress Bar
+        progressBar.style.transition = "none";
+        progressBar.style.width = "0%";
+
+        // Force reflow
+        void progressBar.offsetWidth;
+
+        if (isMainSlide) {
+          // Switch to Team Slide
+          const team = teams[currentTeamIndex];
+          teamNameEl.innerText = team.name;
+          teamDescEl.innerText = team.desc;
+          teamImgEl.src = team.img;
+
+          mainSlide.classList.remove("active");
+          teamSlide.classList.add("active");
+
+          // Start Progress Bar for Team Slide
+          progressBar.style.transition = `width ${TEAM_SLIDE_DURATION}ms linear`;
+          progressBar.style.width = "100%";
+
+          setTimeout(switchSlide, TEAM_SLIDE_DURATION);
+
+          // Prepare next index
+          currentTeamIndex = (currentTeamIndex + 1) % teams.length;
+          isMainSlide = false;
+        } else {
+          // Switch back to Main Slide
+          teamSlide.classList.remove("active");
+          mainSlide.classList.add("active");
+
+          // Start Progress Bar for Main Slide
+          progressBar.style.transition = `width ${MAIN_SLIDE_DURATION}ms linear`;
+          progressBar.style.width = "100%";
+
+          setTimeout(switchSlide, MAIN_SLIDE_DURATION);
+          isMainSlide = true;
+        }
+      }
+
+      // Start the loop
+      setTimeout(switchSlide, MAIN_SLIDE_DURATION);
+      // Initialize first bar
+      progressBar.style.transition = `width ${MAIN_SLIDE_DURATION}ms linear`;
+      progressBar.style.width = "100%";
+
+      /* --- BACKGROUND ANIMATION (Connected Nodes) --- */
+      const canvas = document.getElementById("bg-canvas");
+      const ctx = canvas.getContext("2d");
+      let width, height;
+      let particles = [];
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = (Math.random() - 0.5) * 0.5;
+          this.size = Math.random() * 2 + 1;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+          ctx.fillStyle = "rgba(134, 188, 37, 0.4)"; // Deloitte Greenish
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      function initParticles() {
+        particles = [];
+        for (let i = 0; i < 60; i++) {
+          particles.push(new Particle());
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+          // Draw connections
+          for (let j = i; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 150) {
+              ctx.strokeStyle = `rgba(134, 188, 37, ${0.15 - distance / 1000})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+
+      initParticles();
+      animate();
+    </script>
+  </body>
+</html>
