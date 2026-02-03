@@ -312,7 +312,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         backdrop-filter: blur(5px);
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
         animation: float 8s ease-in-out infinite;
@@ -320,7 +320,8 @@
 
       .mosaic-card img {
         width: 100%;
-        height: 72%;
+        height: auto;
+        flex: 1 1 auto;
         object-fit: contain;
         padding: 14px;
         border-bottom: 2px solid var(--deloitte-green);
@@ -339,12 +340,12 @@
         font-size: 1.1rem;
         font-weight: 600;
         color: #fff;
-        height: 25%;
+        min-height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding: 0 5px;
+        padding: 8px 8px;
       }
 
       /* --- SLIDE 3: TEAM SPOTLIGHT --- */
@@ -364,13 +365,14 @@
 
       .team-image-container {
         flex: 1;
-        height: auto;
-        aspect-ratio: 16 / 9;
+        height: 100%;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
         border-radius: 15px;
+        position: relative;
         background:
           radial-gradient(
             380px 240px at 50% 35%,
@@ -384,41 +386,42 @@
       .team-image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        object-position: center;
         padding: 0;
-        filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6))
-          drop-shadow(0 0 28px rgba(134, 188, 37, 0.3));
+        display: block;
       }
 
-      .team-info {
-        flex: 1;
-        padding-left: 50px;
-        text-align: left;
+      .team-overlay {
+        position: absolute;
+        top: 18px;
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        text-align: center;
+        pointer-events: none;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
       }
 
       .team-label {
         color: var(--deloitte-green);
-        font-size: 1.2rem;
+        font-size: 0.85rem;
         text-transform: uppercase;
-        letter-spacing: 2px;
+        letter-spacing: 2.5px;
         font-weight: 700;
-        margin-bottom: 10px;
+        margin: 0;
       }
 
       .team-name {
-        font-size: 4rem;
+        font-size: 2rem;
         margin: 0;
         line-height: 1.1;
+        color: #f2f2f2;
       }
 
-      .team-motto {
-        font-size: 1.8rem;
-        font-style: italic;
-        color: #b0b0b0;
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid #444;
-      }
 
       .flow-steps {
         margin-top: 22px;
@@ -623,12 +626,11 @@
       <div class="slide" id="team-slide">
         <div class="team-card">
           <div class="team-image-container">
+            <div class="team-overlay">
+              <div class="team-label">Team Spotlight</div>
+              <h2 class="team-name" id="team-name">Team Name</h2>
+            </div>
             <img src="" alt="Team Photo" class="team-image" id="team-img" />
-          </div>
-          <div class="team-info">
-            <div class="team-label">Team Spotlight</div>
-            <h2 class="team-name" id="team-name">Team Name</h2>
-            <p class="team-motto" id="team-desc">...</p>
           </div>
         </div>
       </div>
@@ -657,57 +659,48 @@
       const teams = [
         {
           name: "Agent Zero",
-          desc: "Redefining Architecture",
           imgMosaic: "./img/agent_zero.webp",
-          imgSpotlight: "./img/agent_zero.jpeg",
+          imgSpotlight: "./img/agent_zero.png",
         },
         {
           name: "Mindra",
-          desc: "Extracting Value",
           imgMosaic: "./img/mindra.webp",
-          imgSpotlight: "./img/mindra.jpeg",
+          imgSpotlight: "./img/mindra.png",
         },
         {
           name: "omiAI-Tech",
-          desc: "AI Driven Solutions",
           imgMosaic: "./img/omiai_tech.webp",
-          imgSpotlight: "./img/omiai_tech.jpg",
+          imgSpotlight: "./img/omiai_tech.png",
         },
         {
           name: "AiShadows",
-          desc: "Seamless Engineering",
           imgMosaic: "./img/aishadows.webp",
-          imgSpotlight: "./img/aishadows.jpeg",
+          imgSpotlight: "./img/aishadows.png",
         },
         {
           name: "Opptimized Minds",
-          desc: "Pushing Cloud Limits",
           imgMosaic: "./img/optimized_minds.webp",
-          imgSpotlight: "./img/optimized_minds.jpeg",
+          imgSpotlight: "./img/optimized_minds.png",
         },
         {
           name: "team0",
-          desc: "Precision & Performance",
           imgMosaic: "./img/team0.webp",
-          imgSpotlight: "./img/team0.jpeg",
+          imgSpotlight: "./img/team0.png",
         },
         {
           name: "team1",
-          desc: "Building Tomorrow",
           imgMosaic: "https://placehold.co/600x400/111/86BC25?text=team1",
           imgSpotlight: "https://placehold.co/900x600/111/86BC25?text=team1",
         },
         {
           name: "The Disaster",
-          desc: "Digital Harmony",
           imgMosaic: "./img/disaster.webp",
-          imgSpotlight: "./img/disaster.jpeg",
+          imgSpotlight: "./img/disaster.png",
         },
         {
           name: "CareBytes",
-          desc: "Fresh Perspectives",
           imgMosaic: "./img/asmaa.webp",
-          imgSpotlight: "./img/asmaa.jpeg",
+          imgSpotlight: "./img/asmaa.png",
         },
       ];
 
@@ -721,7 +714,6 @@
       const navControls = document.querySelector(".nav-controls");
 
       const teamNameEl = document.getElementById("team-name");
-      const teamDescEl = document.getElementById("team-desc");
       const teamImgEl = document.getElementById("team-img");
       const targetLabelEl = document.getElementById("target-label");
 
@@ -808,7 +800,6 @@
         const { advance = true, spotlightOverride = null } = options;
         const team = teams[index];
         teamNameEl.innerText = team.name;
-        teamDescEl.innerText = team.desc;
         teamImgEl.src = team.imgSpotlight;
         setActive("spotlight");
         resetTimer(SPOTLIGHT_DURATION);
