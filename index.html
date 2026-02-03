@@ -854,13 +854,13 @@
       }
 
       function goNext() {
-        if (currentView === "mosaic") {
-          showMain();
-        } else if (currentView === "main") {
+        if (currentView === "main") {
+          showMosaic();
+        } else if (currentView === "mosaic") {
           showSpotlight(currentTeamIndex, { advance: true });
         } else {
-          if (state === 2) {
-            showMosaic();
+          if (state === 0) {
+            showMain();
           } else {
             showSpotlight(currentTeamIndex, { advance: true });
           }
@@ -870,16 +870,16 @@
       function goPrev() {
         const len = teams.length;
         if (currentView === "main") {
-          showMosaic();
-        } else if (currentView === "mosaic") {
           const prevIndex = (currentTeamIndex - 1 + len) % len;
           showSpotlight(prevIndex, {
             advance: false,
             spotlightOverride: len - 1,
           });
+        } else if (currentView === "mosaic") {
+          showMain();
         } else {
           if (spotlightShown <= 1) {
-            showMain();
+            showMosaic();
             return;
           }
           const prevIndex = (currentTeamIndex - 2 + len) % len;
