@@ -757,7 +757,7 @@
 
       /* --- LOGIC --- */
       let currentTeamIndex = 0;
-      let state = 1; // 0=Main, 1=Spotlight, 2=Mosaic
+      let state = 1; // 0=Main, 1=Mosaic, 2=Spotlight
       let spotlightShown = 0;
       let currentView = "main";
       let timerId = null;
@@ -813,7 +813,7 @@
       function showMosaic() {
         setActive("mosaic");
         resetTimer(MOSAIC_DURATION);
-        state = 0;
+        state = 2;
       }
 
       function showSpotlight(index, options = {}) {
@@ -834,12 +834,12 @@
           spotlightShown += 1;
           if (spotlightShown >= teams.length) {
             spotlightShown = 0;
-            state = 2;
+            state = 0;
           } else {
-            state = 1;
+            state = 2;
           }
         } else {
-          state = 1;
+          state = 2;
         }
       }
 
@@ -847,9 +847,9 @@
         if (state === 0) {
           showMain();
         } else if (state === 1) {
-          showSpotlight(currentTeamIndex, { advance: true });
-        } else {
           showMosaic();
+        } else {
+          showSpotlight(currentTeamIndex, { advance: true });
         }
       }
 
