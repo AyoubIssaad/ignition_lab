@@ -410,6 +410,10 @@
         display: block;
       }
 
+      .team-image-container.spotlight-offset {
+        padding-top: 25px;
+      }
+
       .team-overlay {
         position: absolute;
         top: 18px;
@@ -438,6 +442,9 @@
         margin: 0;
         line-height: 1.1;
         color: #f2f2f2;
+        font-family: "Unbounded", "Space Grotesk", sans-serif;
+        letter-spacing: 1px;
+        text-transform: uppercase;
       }
 
       .flow-steps {
@@ -735,6 +742,7 @@
 
       const teamNameEl = document.getElementById("team-name");
       const teamImgEl = document.getElementById("team-img");
+      const teamImageContainer = document.querySelector(".team-image-container");
       const targetLabelEl = document.getElementById("target-label");
 
       const targetLabel = new Date(targetDate).toLocaleDateString("en-US", {
@@ -821,6 +829,10 @@
         const team = teams[index];
         teamNameEl.innerText = team.name;
         teamImgEl.src = team.imgSpotlight;
+        teamImageContainer.classList.toggle(
+          "spotlight-offset",
+          team.name === "omiAI-Tech",
+        );
         setActive("spotlight");
         resetTimer(SPOTLIGHT_DURATION);
 
