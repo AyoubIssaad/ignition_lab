@@ -299,7 +299,7 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
-        gap: 20px;
+        gap: 12px;
         width: 95%;
         height: 90%;
       }
@@ -312,7 +312,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
+        position: relative;
         backdrop-filter: blur(5px);
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
         animation: float 8s ease-in-out infinite;
@@ -320,11 +321,9 @@
 
       .mosaic-card img {
         width: 100%;
-        height: auto;
-        flex: 1 1 auto;
+        height: 100%;
         object-fit: contain;
-        padding: 14px;
-        border-bottom: 2px solid var(--deloitte-green);
+        padding: 12px 6px 10px;
         background:
           radial-gradient(
             circle at 50% 35%,
@@ -337,15 +336,23 @@
       }
 
       .mosaic-card .name {
-        font-size: 1.1rem;
-        font-weight: 600;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 1rem;
+        font-weight: 700;
         color: #fff;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        padding: 8px 6px;
         text-align: center;
-        padding: 8px 8px;
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.65) 55%,
+          rgba(0, 0, 0, 0.85) 100%
+        );
       }
 
       /* --- SLIDE 3: TEAM SPOTLIGHT --- */
@@ -421,7 +428,6 @@
         line-height: 1.1;
         color: #f2f2f2;
       }
-
 
       .flow-steps {
         margin-top: 22px;
@@ -876,6 +882,15 @@
 
       prevBtn.addEventListener("click", goPrev);
       nextBtn.addEventListener("click", goNext);
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          goPrev();
+        } else if (event.key === "ArrowRight") {
+          event.preventDefault();
+          goNext();
+        }
+      });
 
       resetTimer(MAIN_DURATION);
 
