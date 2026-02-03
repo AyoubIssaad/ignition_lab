@@ -308,7 +308,7 @@
       /* --- SLIDE 2: MOSAIC (ALL TEAMS) --- */
       .mosaic-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         grid-template-rows: repeat(3, 1fr);
         gap: 12px;
         width: 95%;
@@ -316,6 +316,7 @@
       }
 
       .mosaic-card {
+        grid-column: span 2;
         background: rgba(20, 20, 20, 0.7);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 10px;
@@ -328,6 +329,14 @@
         backdrop-filter: blur(5px);
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
         animation: float 8s ease-in-out infinite;
+      }
+
+      .mosaic-card:nth-last-child(2):nth-child(7) {
+        grid-column: 2 / span 2;
+      }
+
+      .mosaic-card:last-child:nth-child(8) {
+        grid-column: 4 / span 2;
       }
 
       .mosaic-card img {
@@ -576,7 +585,7 @@
       </div>
       <div class="meta-row">
         <div class="pill">Innovation Sprint</div>
-        <div class="pill">9 Teams</div>
+        <div class="pill">8 Teams</div>
         <div class="pill">Demo Day</div>
       </div>
     </header>
@@ -587,7 +596,7 @@
           <div class="hero-left">
             <p class="event-desc">
               A sprint of focused invention, rapid prototyping, and bold
-              thinking. Nine teams. One mission:
+              thinking. Eight teams. One mission:
               <span class="highlight">ignite the next wave of innovation.</span>
             </p>
             <div class="callout">
@@ -600,7 +609,7 @@
                 <div class="label">Days to Build</div>
               </div>
               <div class="stat-card">
-                <div class="value">9</div>
+                <div class="value">8</div>
                 <div class="label">Teams</div>
               </div>
               <div class="stat-card">
@@ -669,6 +678,9 @@
       <button class="nav-btn" id="nav-prev" aria-label="Previous slide">
         &#x2039;
       </button>
+      <button class="nav-btn" id="nav-pause" aria-label="Pause slideshow">
+        &#x23F8;
+      </button>
       <button class="nav-btn" id="nav-next" aria-label="Next slide">
         &#x203A;
       </button>
@@ -687,48 +699,43 @@
       const teams = [
         {
           name: "Agent Zero",
-          imgMosaic: "./img/agent_zero.webp",
+          imgMosaic: "./img/agent_zero.png",
           imgSpotlight: "./img/agent_zero.png",
         },
         {
           name: "Mindra",
-          imgMosaic: "./img/mindra.webp",
+          imgMosaic: "./img/mindra.png",
           imgSpotlight: "./img/mindra.png",
         },
         {
           name: "omiAI-Tech",
-          imgMosaic: "./img/omiai_tech.webp",
+          imgMosaic: "./img/omiai_tech.png",
           imgSpotlight: "./img/omiai_tech.png",
         },
         {
           name: "AiShadows",
-          imgMosaic: "./img/aishadows.webp",
+          imgMosaic: "./img/aishadows.png",
           imgSpotlight: "./img/aishadows.png",
         },
         {
           name: "Opptimized Minds",
-          imgMosaic: "./img/optimized_minds.webp",
+          imgMosaic: "./img/optimized_minds.png",
           imgSpotlight: "./img/optimized_minds.png",
         },
         {
           name: "Cortex",
-          imgMosaic: "./img/cortex.webp",
+          imgMosaic: "./img/cortex.png",
           imgSpotlight: "./img/cortex.png",
         },
         {
-          name: "team1",
-          imgMosaic: "https://placehold.co/600x400/111/86BC25?text=team1",
-          imgSpotlight: "https://placehold.co/900x600/111/86BC25?text=team1",
-        },
-        {
           name: "The Disaster",
-          imgMosaic: "./img/disaster.webp",
+          imgMosaic: "./img/disaster.png",
           imgSpotlight: "./img/disaster.png",
         },
         {
           name: "CareBytes",
-          imgMosaic: "./img/asmaa.webp",
-          imgSpotlight: "./img/asmaa.png",
+          imgMosaic: "./img/carebytes.png",
+          imgSpotlight: "./img/carebytes.png",
         },
       ];
 
@@ -738,12 +745,15 @@
       const teamSlide = document.getElementById("team-slide");
       const progressBar = document.getElementById("progress-bar");
       const prevBtn = document.getElementById("nav-prev");
+      const pauseBtn = document.getElementById("nav-pause");
       const nextBtn = document.getElementById("nav-next");
       const navControls = document.querySelector(".nav-controls");
 
       const teamNameEl = document.getElementById("team-name");
       const teamImgEl = document.getElementById("team-img");
-      const teamImageContainer = document.querySelector(".team-image-container");
+      const teamImageContainer = document.querySelector(
+        ".team-image-container",
+      );
       const targetLabelEl = document.getElementById("target-label");
 
       const targetLabel = new Date(targetDate).toLocaleDateString("en-US", {
@@ -770,6 +780,10 @@
       let spotlightShown = 0;
       let currentView = "main";
       let timerId = null;
+      let isPaused = false;
+      let progressStartTime = 0;
+      let progressDuration = 0;
+      let remainingTime = 0;
 
       function updateCountdown() {
         const now = new Date().getTime();
@@ -807,10 +821,49 @@
         progressBar.style.transition = "none";
         progressBar.style.width = "0%";
         void progressBar.offsetWidth;
+        progressStartTime = Date.now();
+        progressDuration = duration;
+        remainingTime = duration;
+        if (isPaused) return;
         progressBar.style.transition = `width ${duration}ms linear`;
         progressBar.style.width = "100%";
         if (timerId) clearTimeout(timerId);
         timerId = setTimeout(switchSlide, duration);
+      }
+
+      function pauseSlideshow() {
+        if (timerId) clearTimeout(timerId);
+        const elapsed = Math.min(Date.now() - progressStartTime, progressDuration);
+        remainingTime = Math.max(progressDuration - elapsed, 0);
+        const width = progressDuration
+          ? `${(elapsed / progressDuration) * 100}%`
+          : "0%";
+        progressBar.style.transition = "none";
+        progressBar.style.width = width;
+        isPaused = true;
+        pauseBtn.innerHTML = "&#x25B6;";
+        pauseBtn.setAttribute("aria-label", "Resume slideshow");
+      }
+
+      function resumeSlideshow() {
+        if (!isPaused) return;
+        progressStartTime = Date.now();
+        progressDuration = remainingTime;
+        progressBar.style.transition = `width ${remainingTime}ms linear`;
+        progressBar.style.width = "100%";
+        if (timerId) clearTimeout(timerId);
+        timerId = setTimeout(switchSlide, remainingTime);
+        isPaused = false;
+        pauseBtn.innerHTML = "&#x23F8;";
+        pauseBtn.setAttribute("aria-label", "Pause slideshow");
+      }
+
+      function togglePause() {
+        if (isPaused) {
+          resumeSlideshow();
+        } else {
+          pauseSlideshow();
+        }
       }
 
       function showMain() {
@@ -908,6 +961,7 @@
       if (!SHOW_CONTROLS) navControls.classList.add("is-hidden");
 
       prevBtn.addEventListener("click", goPrev);
+      pauseBtn.addEventListener("click", togglePause);
       nextBtn.addEventListener("click", goNext);
       window.addEventListener("keydown", (event) => {
         if (event.key === "ArrowLeft") {
@@ -916,6 +970,9 @@
         } else if (event.key === "ArrowRight") {
           event.preventDefault();
           goNext();
+        } else if (event.code === "Space") {
+          event.preventDefault();
+          togglePause();
         }
       });
 
