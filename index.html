@@ -180,9 +180,19 @@
         width: 90%;
         max-width: 1400px;
         display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
+        grid-template-columns: 7fr 3fr;
         gap: 50px;
         align-items: center;
+      }
+
+      .hero-left {
+        width: 100%;
+      }
+
+      .hero-right {
+        width: 100%;
+        max-width: 420px;
+        justify-self: end;
       }
 
       .event-desc {
@@ -222,7 +232,7 @@
       .countdown-container {
         display: flex;
         gap: 10px;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: flex-end;
       }
 
@@ -529,6 +539,10 @@
           grid-template-columns: 1fr;
           gap: 30px;
         }
+        .hero-right {
+          max-width: none;
+          justify-self: stretch;
+        }
         .event-desc {
           text-align: center;
         }
@@ -561,7 +575,7 @@
     <div class="content-container">
       <div class="slide active" id="main-slide">
         <div class="hero-grid">
-          <div>
+          <div class="hero-left">
             <p class="event-desc">
               A sprint of focused invention, rapid prototyping, and bold
               thinking. Nine teams. One mission:
@@ -586,7 +600,7 @@
               </div>
             </div>
           </div>
-          <div>
+          <div class="hero-right">
             <div class="countdown-container">
               <div class="time-box">
                 <span class="time-value" id="days">00</span>
