@@ -599,8 +599,8 @@
         <div class="hero-grid">
           <div class="hero-left">
             <p class="event-desc">
-              An intensive sprint of focused invention, rapid prototyping, and bold
-              thinking. Eight teams. One mission:
+              An intensive sprint of focused invention, rapid prototyping, and
+              bold thinking. Eight teams. One mission:
               <span class="highlight">ignite the next wave of innovation.</span>
             </p>
             <div class="callout">
@@ -722,7 +722,7 @@
           imgSpotlight: "./img/aishadows.webp",
         },
         {
-          name: "Opptimized Minds",
+          name: "Optimized Minds",
           imgMosaic: "./img/optimized_minds.webp",
           imgSpotlight: "./img/optimized_minds.webp",
         },
@@ -837,7 +837,10 @@
 
       function pauseSlideshow() {
         if (timerId) clearTimeout(timerId);
-        const elapsed = Math.min(Date.now() - progressStartTime, progressDuration);
+        const elapsed = Math.min(
+          Date.now() - progressStartTime,
+          progressDuration,
+        );
         remainingTime = Math.max(progressDuration - elapsed, 0);
         const width = progressDuration
           ? `${(elapsed / progressDuration) * 100}%`
