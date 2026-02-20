@@ -739,12 +739,11 @@
             <img src="" alt="Team Photo" class="team-image" id="team-img" />
           </div>
           <div class="team-description-box">
-            <h3>Subject Focus</h3>
-            <p>
+            <h3 id="team-project">Project Name</h3>
+            <p id="team-description">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
               commodo, eros sit amet lacinia posuere, nibh lorem malesuada
-              tellus, vitae congue mauris turpis sit amet purus. Suspendisse
-              potenti.
+              tellus, vitae congue mauris turpis sit amet purus.
             </p>
           </div>
         </div>
@@ -779,41 +778,65 @@
           name: "Agent Zero",
           imgMosaic: "./img/agent_zero.webp",
           imgSpotlight: "./img/agent_zero.webp",
+          project: "DataWise",
+          description:
+            "Turning data quality into a competitive advantage. DataWise uses AI to automatically assess dataset compliance, detect quality issues, and generate actionable optimization recommendations, strengthening governance while reducing manual effort.",
         },
         {
           name: "Mindra",
           imgMosaic: "./img/mindra.webp",
           imgSpotlight: "./img/mindra.webp",
+          project: "VECTOR",
+          description:
+            "Reimagining pharmaceutical operations with AI. Vector brings real-time visibility, intelligent inventory optimization (FEFO, batch, cold chain), and automated regulatory documentation to pharma supply chains, reducing shortages, compliance risks, and operational waste.",
         },
         {
           name: "omiAI-Tech",
           imgMosaic: "./img/omiai_tech.webp",
           imgSpotlight: "./img/omiai_tech.webp",
+          project: "AI Banking Advisor Assistant",
+          description:
+            "An AI copilot for smarter client meetings. A real-time assistant that listens, analyzes conversations, recommends relevant banking services, generates simulations, and summarizes meetings, helping advisors unlock every opportunity.",
         },
         {
           name: "AiShadows",
           imgMosaic: "./img/aishadows.webp",
           imgSpotlight: "./img/aishadows.webp",
+          project: "Risk Radar AI",
+          description:
+            "Spot project risks before they escalate. Risk Radar AI analyzes tickets, meeting notes, and project signals to detect early warning signs, delivering a clean health score and actionable insights for proactive, data-driven leadership.",
         },
         {
           name: "Optimized Minds",
           imgMosaic: "./img/optimized_minds.webp",
           imgSpotlight: "./img/optimized_minds.webp",
+          project: "Project Name",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed commodo, eros sit amet lacinia posuere, nibh lorem malesuada tellus, vitae congue mauris turpis sit amet purus.",
         },
         {
           name: "Cortex",
           imgMosaic: "./img/cortex.webp",
           imgSpotlight: "./img/cortex.webp",
+          project: "Project Name",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed commodo, eros sit amet lacinia posuere, nibh lorem malesuada tellus, vitae congue mauris turpis sit amet purus.",
         },
         {
           name: "The Disaster",
           imgMosaic: "./img/disaster.webp",
           imgSpotlight: "./img/disaster.webp",
+          project: "GenAI for Disaster Recovery",
+          description:
+            "Autonomous cloud resilience powered by GenAI. This solution maps critical cloud dependencies, continuously validates backups, and orchestrates intelligent recovery strategies, minimizing downtime and operational risk.",
         },
         {
           name: "CareBytes",
           imgMosaic: "./img/carebytes.webp",
           imgSpotlight: "./img/carebytes.webp",
+          project: "CalmPulse",
+          description:
+            "CalmPulse: Continuous mental health support between sessions. CalmPulse combines an AI companion with real-time clinical monitoring to detect risk signals, provide evidence-based interventions, and alert clinicians early, making care more proactive and connected.",
         },
       ];
 
@@ -829,6 +852,8 @@
 
       const teamNameEl = document.getElementById("team-name");
       const teamImgEl = document.getElementById("team-img");
+      const teamProjectEl = document.getElementById("team-project");
+      const teamDescriptionEl = document.getElementById("team-description");
       const teamImageContainer = document.querySelector(
         ".team-image-container",
       );
@@ -964,6 +989,8 @@
         const team = teams[index];
         teamNameEl.innerText = team.name;
         teamImgEl.src = team.imgSpotlight;
+        teamProjectEl.innerText = team.project || "Project Name";
+        teamDescriptionEl.innerText = team.description;
         teamImageContainer.classList.toggle(
           "spotlight-offset",
           team.name === "omiAI-Tech",
