@@ -386,7 +386,7 @@
         height: 75%;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: stretch;
         gap: 32px;
         box-shadow: none;
         backdrop-filter: none;
@@ -396,6 +396,7 @@
         flex: 1;
         height: 100%;
         width: 100%;
+        box-sizing: border-box;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -462,6 +463,7 @@
         width: 36%;
         min-width: 260px;
         height: 100%;
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -499,6 +501,10 @@
         font-size: 1.25rem;
         line-height: 1.6;
         color: #f0f0f0;
+      }
+
+      .team-card > * {
+        height: 100%;
       }
 
       @media (max-width: 1024px) {
