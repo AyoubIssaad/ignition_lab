@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ignition Lab | Certificates</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Unbounded:wght@600;700;800&display=swap");
+
+      :root {
+        --deloitte-green: #86bc25;
+        --text-color: #ffffff;
+        --muted: #a6a6a6;
+        --accent-glow: rgba(134, 188, 37, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background:
+          radial-gradient(
+            1200px 500px at 15% -10%,
+            rgba(134, 188, 37, 0.22),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 90% 10%,
+            rgba(255, 255, 255, 0.08),
+            transparent 65%
+          ),
+          linear-gradient(160deg, #050505 0%, #0a0a0a 60%, #0d0f0b 100%);
+        color: var(--text-color);
+        font-family:
+          "Space Grotesk", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .global-header {
+        text-align: center;
+        margin-top: 3vh;
+        height: 15vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        z-index: 10;
+      }
+
+      .event-title {
+        font-family: "Unbounded", "Space Grotesk", sans-serif;
+        font-size: 3.4rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin: 0;
+        background: linear-gradient(90deg, #fff, var(--deloitte-green));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 40px var(--accent-glow);
+      }
+
+      .event-subtitle {
+        font-size: 1.05rem;
+        font-weight: 400;
+        margin: 0;
+        color: var(--muted);
+        letter-spacing: 1px;
+        display: inline-flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--deloitte-green);
+        box-shadow: 0 0 12px var(--accent-glow);
+      }
+
+      .image-frame {
+        position: relative;
+        width: min(92vw, calc(72vh * var(--image-aspect, 1.7778)));
+        aspect-ratio: var(--image-aspect, 1.7778);
+        margin-top: 2vh;
+        border-radius: 24px;
+        padding: 12px;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 1px solid rgba(134, 188, 37, 0.35);
+        box-shadow:
+          0 0 60px rgba(0, 0, 0, 0.5),
+          0 0 30px var(--accent-glow);
+      }
+
+      .image-frame::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 26px;
+        background: radial-gradient(
+          1200px 400px at 20% -20%,
+          rgba(134, 188, 37, 0.35),
+          transparent 60%
+        );
+        z-index: 0;
+        opacity: 0.6;
+      }
+
+      .image-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 18px;
+        overflow: hidden;
+        background: rgba(5, 5, 5, 0.9);
+        z-index: 1;
+      }
+
+      .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
+      @media (max-width: 900px) {
+        .event-title {
+          font-size: 2.4rem;
+        }
+
+        .image-frame {
+          width: min(92vw, calc(64vh * var(--image-aspect, 1.7778)));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="global-header">
+      <h1 class="event-title">Ignition Lab</h1>
+      <p class="event-subtitle">
+        <span class="dot"></span>
+        Certificates Showcase
+      </p>
+    </header>
+
+    <section class="image-frame">
+      <div class="image-container">
+        <img src="img/certs.png" alt="Ignition Lab certificates" />
+      </div>
+    </section>
+
+    <script>
+      const image = document.querySelector(".image-container img");
+      const frame = document.querySelector(".image-frame");
+
+      const updateAspectRatio = () => {
+        if (image.naturalWidth && image.naturalHeight) {
+          const ratio = image.naturalWidth / image.naturalHeight;
+          frame.style.setProperty("--image-aspect", ratio.toString());
+        }
+      };
+
+      if (image.complete) {
+        updateAspectRatio();
+      } else {
+        image.addEventListener("load", updateAspectRatio);
+      }
+    </script>
+  </body>
+</html>
