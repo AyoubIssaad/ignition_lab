@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ignition Lab | Video</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Unbounded:wght@600;700;800&display=swap");
+
+      :root {
+        --deloitte-green: #86bc25;
+        --dark-bg: #070707;
+        --text-color: #ffffff;
+        --card-bg: rgba(16, 16, 16, 0.85);
+        --muted: #a6a6a6;
+        --accent-glow: rgba(134, 188, 37, 0.35);
+        --glass: rgba(18, 18, 18, 0.65);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background:
+          radial-gradient(
+            1200px 500px at 15% -10%,
+            rgba(134, 188, 37, 0.22),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 600px at 90% 10%,
+            rgba(255, 255, 255, 0.08),
+            transparent 65%
+          ),
+          linear-gradient(160deg, #050505 0%, #0a0a0a 60%, #0d0f0b 100%);
+        color: var(--text-color);
+        font-family:
+          "Space Grotesk", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .global-header {
+        text-align: center;
+        margin-top: 3vh;
+        height: 15vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        z-index: 10;
+      }
+
+      .title-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .event-title {
+        font-family: "Unbounded", "Space Grotesk", sans-serif;
+        font-size: 3.4rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin: 0;
+        background: linear-gradient(90deg, #fff, var(--deloitte-green));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 40px var(--accent-glow);
+      }
+
+      .event-subtitle {
+        font-size: 1.05rem;
+        font-weight: 400;
+        margin: 0;
+        color: var(--muted);
+        letter-spacing: 1px;
+        display: inline-flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--deloitte-green);
+        box-shadow: 0 0 12px var(--accent-glow);
+      }
+
+      .video-frame {
+        position: relative;
+        width: min(92vw, calc(70vh * var(--video-aspect, 1.7778)));
+        aspect-ratio: var(--video-aspect, 1.7778);
+        margin-top: 2vh;
+        border-radius: 24px;
+        padding: 12px;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.01)
+        );
+        border: 1px solid rgba(134, 188, 37, 0.35);
+        box-shadow:
+          0 0 60px rgba(0, 0, 0, 0.5),
+          0 0 30px var(--accent-glow);
+      }
+
+      .video-frame::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        border-radius: 26px;
+        background: radial-gradient(
+          1200px 400px at 20% -20%,
+          rgba(134, 188, 37, 0.35),
+          transparent 60%
+        );
+        z-index: 0;
+        opacity: 0.6;
+      }
+
+      .video-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 18px;
+        overflow: hidden;
+        background: rgba(5, 5, 5, 0.9);
+        z-index: 1;
+      }
+
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      @media (max-width: 900px) {
+        .event-title {
+          font-size: 2.4rem;
+        }
+
+        .video-frame {
+          width: min(92vw, calc(62vh * var(--video-aspect, 1.7778)));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="global-header">
+      <div class="title-container">
+        <h1 class="event-title">Ignition Lab</h1>
+      </div>
+      <p class="event-subtitle">
+        <span class="dot"></span>
+        Showcase
+      </p>
+    </header>
+
+    <section class="video-frame">
+      <div class="video-container">
+        <video src="videos/video1.mp4" autoplay loop muted playsinline></video>
+      </div>
+    </section>
+
+    <script>
+      const video = document.querySelector("video");
+      const frame = document.querySelector(".video-frame");
+
+      video.addEventListener("loadedmetadata", () => {
+        if (video.videoWidth && video.videoHeight) {
+          const ratio = video.videoWidth / video.videoHeight;
+          frame.style.setProperty("--video-aspect", ratio.toString());
+        }
+      });
+    </script>
+  </body>
+</html>
