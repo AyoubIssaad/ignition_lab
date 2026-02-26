@@ -146,6 +146,89 @@
         display: block;
       }
 
+      .video-controls {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+        z-index: 3;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(134, 188, 37, 0.45);
+        background: rgba(10, 10, 10, 0.6);
+        backdrop-filter: blur(6px);
+        color: #e6f3c6;
+        font-size: 0.75rem;
+        letter-spacing: 0.4px;
+        transition:
+          background 0.2s ease,
+          transform 0.2s ease;
+      }
+
+      .video-controls:hover {
+        background: rgba(134, 188, 37, 0.2);
+      }
+
+      .sound-toggle {
+        border: none;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+        letter-spacing: inherit;
+        cursor: pointer;
+        padding: 0 2px;
+      }
+
+      .volume-control {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        overflow: hidden;
+        max-width: 0;
+        opacity: 0;
+        transition:
+          max-width 0.25s ease,
+          opacity 0.25s ease;
+      }
+
+      .video-controls.expanded .volume-control {
+        max-width: 140px;
+        opacity: 1;
+      }
+
+      .volume-control input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 90px;
+        height: 3px;
+        background: rgba(134, 188, 37, 0.3);
+        border-radius: 999px;
+        outline: none;
+      }
+
+      .volume-control input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--deloitte-green);
+        box-shadow: 0 0 10px var(--accent-glow);
+        cursor: pointer;
+      }
+
+      .volume-control input[type="range"]::-moz-range-thumb {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--deloitte-green);
+        border: none;
+        box-shadow: 0 0 10px var(--accent-glow);
+        cursor: pointer;
+      }
+
       @media (max-width: 900px) {
         .event-title {
           font-size: 2.4rem;
@@ -164,25 +247,85 @@
       </div>
       <p class="event-subtitle">
         <span class="dot"></span>
-        Showcase
+        Ignition Lab Showcase
       </p>
     </header>
 
     <section class="video-frame">
       <div class="video-container">
         <video src="videos/video1.mp4" autoplay loop muted playsinline></video>
+        <div class="video-controls">
+          <button class="sound-toggle" type="button" aria-pressed="false">
+            Sound off
+          </button>
+          <label class="volume-control" aria-label="Volume">
+            <input type="range" min="0" max="1" step="0.05" value="0.5" />
+          </label>
+        </div>
       </div>
     </section>
 
     <script>
       const video = document.querySelector("video");
       const frame = document.querySelector(".video-frame");
+      const controls = document.querySelector(".video-controls");
+      const soundToggle = document.querySelector(".sound-toggle");
+      const volumeSlider = document.querySelector(".volume-control input");
+      video.volume = Number(volumeSlider.value);
+      let collapseTimer = null;
 
       video.addEventListener("loadedmetadata", () => {
         if (video.videoWidth && video.videoHeight) {
           const ratio = video.videoWidth / video.videoHeight;
           frame.style.setProperty("--video-aspect", ratio.toString());
         }
+      });
+
+      soundToggle.addEventListener("click", () => {
+        video.muted = !video.muted;
+        soundToggle.textContent = video.muted ? "Sound off" : "Sound on";
+        soundToggle.setAttribute("aria-pressed", String(!video.muted));
+        if (video.muted) {
+          controls.classList.remove("expanded");
+        }
+      });
+
+      volumeSlider.addEventListener("input", () => {
+        const volume = Number(volumeSlider.value);
+        video.volume = volume;
+        if (volume > 0 && video.muted) {
+          video.muted = false;
+          soundToggle.textContent = "Sound on";
+          soundToggle.setAttribute("aria-pressed", "true");
+        }
+        if (volume === 0) {
+          video.muted = true;
+          soundToggle.textContent = "Sound off";
+          soundToggle.setAttribute("aria-pressed", "false");
+          controls.classList.remove("expanded");
+        }
+      });
+
+      const scheduleCollapse = () => {
+        if (collapseTimer) {
+          clearTimeout(collapseTimer);
+        }
+        collapseTimer = setTimeout(() => {
+          controls.classList.remove("expanded");
+        }, 1500);
+      };
+
+      controls.addEventListener("mouseenter", () => {
+        if (collapseTimer) {
+          clearTimeout(collapseTimer);
+        }
+        if (!video.muted) {
+          controls.classList.add("expanded");
+        }
+      });
+
+      controls.addEventListener("mouseleave", () => {
+        scheduleCollapse();
       });
     </script>
   </body>
