@@ -253,7 +253,7 @@
 
     <section class="video-frame">
       <div class="video-container">
-        <video src="videos/video1.mp4" autoplay loop muted playsinline></video>
+        <video autoplay loop muted playsinline></video>
         <div class="video-controls">
           <button class="sound-toggle" type="button" aria-pressed="false">
             Sound off
@@ -271,6 +271,23 @@
       const controls = document.querySelector(".video-controls");
       const soundToggle = document.querySelector(".sound-toggle");
       const volumeSlider = document.querySelector(".volume-control input");
+      const defaultVideo = "ep1.mp4";
+      const allowedVideos = new Set([
+        "video1.mp4",
+        "ep1.mp4",
+        "ep2.mp4",
+        "ep3.mp4",
+        "ep4.mp4",
+        "ep5.mp4",
+        "ep6.mp4",
+        "ep7.mp4",
+        "ep8.mp4",
+      ]);
+      const videoParam = new URLSearchParams(window.location.search).get("v");
+      const selectedVideo =
+        videoParam && allowedVideos.has(videoParam) ? videoParam : defaultVideo;
+
+      video.src = `videos/${selectedVideo}`;
       video.volume = Number(volumeSlider.value);
       let collapseTimer = null;
 
