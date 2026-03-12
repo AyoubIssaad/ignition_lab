@@ -291,10 +291,16 @@
           ? normalizedVideo
           : defaultVideo;
       const hasVideoParam = Boolean(videoParam);
-      let currentVideoIndex = 0;
+      let currentVideoIndex = Math.max(playlistVideos.indexOf(selectedVideo), 0);
 
       const setVideoSource = (fileName) => {
         video.src = `videos/${fileName}`;
+      };
+
+      const playVideoAtIndex = (index) => {
+        currentVideoIndex = (index + playlistVideos.length) % playlistVideos.length;
+        setVideoSource(playlistVideos[currentVideoIndex]);
+        void video.play();
       };
 
       if (hasVideoParam) {
@@ -319,9 +325,16 @@
         if (hasVideoParam) {
           return;
         }
-        currentVideoIndex = (currentVideoIndex + 1) % playlistVideos.length;
-        setVideoSource(playlistVideos[currentVideoIndex]);
-        void video.play();
+        playVideoAtIndex(currentVideoIndex + 1);
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowRight") {
+          playVideoAtIndex(currentVideoIndex + 1);
+        }
+        if (event.key === "ArrowLeft") {
+          playVideoAtIndex(currentVideoIndex - 1);
+        }
       });
 
       soundToggle.addEventListener("click", () => {
