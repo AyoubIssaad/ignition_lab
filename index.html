@@ -93,10 +93,6 @@
       }
 
       .certs-header .event-title {
-        color: var(--deloitte-green);
-        background: none;
-        -webkit-background-clip: border-box;
-        -webkit-text-fill-color: currentColor;
         font-size: 2.9rem;
         letter-spacing: 3px;
       }
@@ -551,37 +547,23 @@
       }
 
       .certs-card {
-        width: min(94vw, 1600px);
-        height: 88%;
+        width: min(96vw, 1700px);
+        height: 100%;
+        max-height: 100%;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 18px;
-        padding: 26px;
-        border-radius: 24px;
-        background:
-          radial-gradient(
-            520px 300px at 50% 18%,
-            rgba(134, 188, 37, 0.16),
-            transparent 60%
-          ),
-          linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.5));
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
-        overflow: hidden;
       }
 
       #certs-slide {
-        padding-top: 11vh;
+        padding-top: 14vh;
+        padding-bottom: 2vh;
         box-sizing: border-box;
       }
 
       .certs-card img {
         width: 100%;
         height: 100%;
-        min-height: 0;
-        flex: 1 1 auto;
         object-fit: contain;
         object-position: center;
         display: block;
@@ -603,9 +585,8 @@
         }
 
         .certs-card {
-          width: 96%;
-          height: 82%;
-          padding: 18px;
+          width: 100%;
+          height: 100%;
         }
       }
 
